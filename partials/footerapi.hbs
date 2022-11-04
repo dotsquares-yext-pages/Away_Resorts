@@ -1,0 +1,118 @@
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+{{!-- <script>
+    $(".site-footer").on('click', 'h5', function(){
+        $('.foo-col').removeClass('active');
+        $(this).parent().addClass('active');
+    });
+    $(".site-footer").on('click', '.active h5', function(){
+        $('.foo-col').removeClass('active');
+    });
+</script> --}}
+    <script>
+        fetch('https://liveapi.yext.com/v2/accounts/me/entities?api_key=b10a414eaa1b6cfa1c0bac3062eec0e2&v=20181017&entityTypes=ce_footer&resolvePlaceholders=true').then(response => response.json()).then(result => {
+
+            if (!result.errors) {
+                if (result.response.count > 0) {
+                    var html1 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerList1 = entity.c_whyChooseUs.links;
+                     footerList1.forEach(e => {
+                           //console.log(e,"Console"); 
+                           html1 += '<li><a  href=' + e.link + ' > ' + e.label + '</a></li>';
+                      });
+                      $(".firstList").html(html1);
+                    });
+                    var html2 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerList2 = entity.c_aboutUs.links;
+                     footerList2.forEach(e => {
+                           //console.log(e,"Console"); 
+                           html2 += '<li><a  href=' + e.link + ' > ' + e.label + '</a></li>';
+                      });
+                      $(".secondList").html(html2);
+                    });
+                    var html3 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerList2 = entity.c_ownership.links;
+                     footerList2.forEach(e => {
+                           //console.log(e,"Console"); 
+                           html3 += '<li><a  href=' + e.link + ' > ' + e.label + '</a></li>';
+                      });
+                      $(".thirdList").html(html3);
+                    });
+                    //c_support
+                    var html4 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerList2 = entity.c_support.links;
+                     footerList2.forEach(e => {
+                           //console.log(e,"Console"); 
+                           html4 += '<li><a  href=' + e.link + ' > ' + e.label + '</a></li>';
+                      });
+                      $(".fourthList").html(html4);
+                    });
+
+                    var html5 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerList2 = entity.c_footer_Certifications;
+                     footerList2.forEach(e => {
+                           //console.log(e.certifications.sourceUrl,"Console"); 
+                           html5 += '<li><img src='+e.certifications.sourceUrl+'></img></li>';
+                      });
+                      $(".review-site-logo .logo-list").html(html5);
+                    });
+                     
+                    var html6 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerListPhoneNumber = entity.c_list2;
+                     let formatPhoneNumber = (str) => {
+                      //Filter only numbers from the input
+                      let cleaned = ('' + str).replace(/\D/g, '');
+                      
+                      //Check if the input is of correct length
+                      let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+                      if (match) {
+                        return   match[1] + ' ' + match[2] + ' ' + match[3]
+                      };
+
+                      return null
+                    };
+                     
+                        html6 += '<a  href=" tel:'+ footerListPhoneNumber.phoneNumber +' " > ' + formatPhoneNumber(footerListPhoneNumber.phoneNumber) + '</a>';
+                     
+                      $(".phone-number").html(html6);
+                    });
+
+                    var html7 = '';
+                    var html8 = '';
+                    var html9 = '';
+                    $.each(result.response.entities, function (index, entity) {
+                     var footerListPhoneNumber = entity.c_list2;
+                     var hours  = entity.c_list2.time;
+                      html7 += footerListPhoneNumber.openingHours;
+                     hours.forEach(e =>{
+                     console.log(e,"Hours");
+                        html8 +=   '<p> ' + e +'</p>'                 
+                     })
+                     html9 += entity.c_list2.copyRight;
+                     $(".openingTime").html(html7);
+                     $(".timings").html(html8);
+                     $(".copyright").html(html9);
+                    });
+
+                    
+                    
+
+
+                    
+               
+               }
+                else {
+                }
+           } else {
+            }
+        });
+    </script>
